@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="css.40be882d.css">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,900;1,300&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div id="app">
+            <main>
+                <h1>Aplikacja </h1>          
+                <nav>
+                    <div class="tab">
+                        <button class="tablinks" v-on:click="displayTab1">Lista produktów</button>
+                        <button class="tablinks" v-on:click="displayTab2">Porównywarka</button>
+                    </div>
+                </nav>
+
+                <section class="products" v-if="showTab1">
+                    <h2>Lista produktów</h2>
+                    <div>
+                        <hr>
+                        <form>
+                            <div class="form-field-row">
+                                <label for="field-search">Wyszukiwarka:</label>
+                                <input type="search" name="field-search" id="field-search" placeholder="Podaj nazwę produktu lub model" v-model="searchName">
+                            </div>
+                            <div class="form-field-row">
+                                <span>Sortuj wg. ceny: </span>
+                                <button type="button" @click="sortLowest">malejąco</button>
+                                <button type="button" @click="sortHighest">rosnąco</button>
+                            </div>
+                    </form></div>
+
+                    <!-- LIST OF PRODUCTS -->
+                    
+                    <div class="products" v-for="product of filteredProducts" :key="product.id">
+                        <hr>
+                        <article :class="{special: product.special }">
+                            <div class="foto">
+                                <img src="https://via.placeholder.com/350x240" alt="Obrazek">
+                            </div>
+                            
+                            <div>
+                                <h3>{{product.name}}</h3>
+                                <br>
+                                <small>Model produktu: <em>{{product.model}}</em></small>
+                                <br>
+                                <br>
+                                <strong>Marka: <span>{{product.brand}}</span></strong>
+                            </div>
+                            <div>
+                                <button type="button" :class="{colorButton: product.special}" @click="addItemToPage(product)">Dodaj do porównania</button>
+                                <br>
+                                <div>
+                                    <span>{{product.price}} zł netto</span><br>
+                                    <span>{{ (1.23* product.price).toFixed(2) }} brutto</span>
+                                </div>
+                            </div>
+                            
+                        </article>
+                    </div>
+        
+            </section>
+
+        <main>         
+            <section class="compare" v-if="showTab2">
+                
+                <h2>Porównywarka</h2>
+                <hr>
+                <h3 v-model="cart">
+                    Liczba produktów: {{ cart.length }}
+                </h3>
+                <hr>
+                <div class="products">
+            
+                    <div v-for="product in cart" :key="product.name" :class="{special: product.special }" class="article">
+                        <div>
+                            <button type="button" :class="{colorButton: product.special}" @click="removeItem">Usuń z porównania</button>
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/350x240" alt="Obrazek">
+                        </div>
+                        <div>
+                            <h3>{{product.name}}</h3>
+                            <br>
+                            <small>Model produktu: <em>{{product.model}}</em></small>
+                            <br>
+                            <br>
+                            <strong>Marka: <span>{{product.brand}}</span></strong>
+                        </div>
+                        <div>
+                            <hr>
+                            <div>
+                                <h2><span>{{product.price}} zł netto</span><br></h2>
+                                <h3><span>{{ (1.23* product.price).toFixed(2) }} brutto</span></h3>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                            <h3>Opis</h3>
+                            <p v-model="product.description"> 
+                                {{ product.description }}
+                            </p>
+                            <br>
+                            <br>
+                            <strong>Kolor: <span v-model="product.color"> {{product.color}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </main></div>
+
+        <script src="js.3178e034.js"></script>
+    
+    </body>
+
+</html>
